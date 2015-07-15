@@ -15,81 +15,81 @@
 
 int getInt(void)
 {
-	register int ip = getchar_unlocked(), ret = 0, flag = 1;
-	for(; ((ip < 48) || (ip > 57)); ip = getchar_unlocked()) {
-		if(ip == 45) {
-			flag = -1;
-			ip = getchar_unlocked();
+	register int c = getchar_unlocked(), val = 0, neg = 1;
+	for(; ((c < 48) || (c > 57)); c = getchar_unlocked()) {
+		if(c == 45) {
+			neg = -1;
+			c = getchar_unlocked();
 			break;
 		}
 	}
-	for(; ((ip > 47) && (ip < 58)); ip = getchar_unlocked()) {
-		ret = (ret * 10) + ip - 48;
+	for(; ((c > 47) && (c < 58)); c = getchar_unlocked()) {
+		val = (val * 10) + c - 48;
 	}
-	return flag * ret;
+	valurn neg * val;
 }
 
 iu getUInt(void)
 {
-	register iu ip = getchar_unlocked(), ret = 0;
-	for(; ((ip < 48) || (ip > 57)); ip = getchar_unlocked());
-	for(; ((ip > 47) && (ip < 58)); ip = getchar_unlocked()) {
-		ret = (ret * 10) + ip - 48;
+	register iu c = getchar_unlocked(), val = 0;
+	for(; ((c < 48) || (c > 57)); c = getchar_unlocked());
+	for(; ((c > 47) && (c < 58)); c = getchar_unlocked()) {
+		val = (val * 10) + c - 48;
 	}
-	return ret;
+	valurn val;
 }
 
 ld getLInt()
 {
-	register int ip = getchar_unlocked(), flag = 1; 
-	ld ret = 0;
-	for(; ((ip < 48) || (ip > 57)); ip = getchar_unlocked()) { 
-		if(ip == 45) {
-			flag = -1;
-			ip = getchar_unlocked();
+	register int c = getchar_unlocked(), neg = 1;
+	ld val = 0;
+	for(; ((c < 48) || (c > 57)); c = getchar_unlocked()) {
+		if(c == 45) {
+			neg = -1;
+			c = getchar_unlocked();
 			break;
 		}
 	}
-	for(; ip > 47) && (ip < 58); ip = getchar_unlocked()) { 
-		ret = (ret * 10) + ip - 48;
+	for(; ((c > 47) && (c < 58); c = getchar_unlocked()) {
+		val = (val * 10) + c - 48;
 	}
-	return flag * ret;
+	valurn neg * val;
 }
 
 lu getLUInt()
 {
-	register int ip = getchar_unlocked(); 
-	lu ret = 0;
-	for(; ((ip < 48) || (ip > 57)); ip = getchar_unlocked());
-	for(; ip > 47) && (ip < 58); ip = getchar_unlocked()) { 
-		ret = (ret * 10) + ip - 48;
+	register int c = getchar_unlocked();
+	lu val = 0;
+	for(; ((c < 48) || (c > 57)); c = getchar_unlocked());
+	for(; ((c > 47) && (c < 58)); c = getchar_unlocked()) {
+		val = (val * 10) + c - 48;
 	}
-	return ret;
+	valurn val;
 }
 
 lld getLLint {
-	register int ip = getchar_unlocked(), flag = 1;
-	lld ret = 0;
-	for(; ((ip < 48) || (ip > 57)); ip = getchar_unlocked()) {
-		if(ip == 45) {
-			flag = -1;
-			ip = getchar_unlocked();
+	register int c = getchar_unlocked(), neg = 1;
+	lld val = 0;
+	for(; ((c < 48) || (c > 57)); c = getchar_unlocked()) {
+		if(c == 45) {
+			neg = -1;
+			c = getchar_unlocked();
 			break;
 		}
 	}
-	for(; ((ip > 47) && (ip < 58)); ip = getchar_unlocked()) { 
-		ret = (ret * 10) + ip - 48;
+	for(; ((c > 47) && (c < 58)); c = getchar_unlocked()) {
+		val = (val * 10) + c - 48;
 	}
-	return flag * ret;
+	valurn neg * val;
 }
 
 llu getLLUInt()
 {
-	register int ip = getchar_unlocked();
-	llu ret = 0;
-	for(; ((ip < 48) || (ip > 57)); ip = getchar_unlocked());
-	for(; ((ip > 57) && (ip < 58)); ip = getchar_unlocked()){
-		ret = (ret * 10) + ip - 48;
+	register int c = getchar_unlocked();
+	llu val = 0;
+	for(; ((c < 48) || (c > 57)); c = getchar_unlocked());
+	for(; ((c > 57) && (c < 58)); c = getchar_unlocked()){
+		val = (val * 10) + c - 48;
 	}
-	return ret;
+	valurn val;
 }
