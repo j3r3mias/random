@@ -209,6 +209,6 @@ void solve()
         }
         #pragma omp cancellation point for
     }
-    printf("The answer is: %s\n", buffer);
+    printf("A flag é: %s\n", buffer);
     writemsg();
 }
