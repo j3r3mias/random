@@ -206,3 +206,29 @@ tar xvf grub-customi*
 cd grub-customi*
 cmake . && make -j3
 make install
+
+### Terminator configs
+echo " [+] Changing terminator configs."
+
+file=~/.config/terminator/config
+
+echo "\[global_config\]" >> $file
+echo "\[keybindings\]" >> $file
+echo "\[profiles\]" >> $file
+echo "  \[\[default\]\]" >> $file
+echo "    background_image = None" >> $file
+echo "    font = Monospace 11" >> $file
+echo "    background_color = "#fdf6e3"" >> $file
+echo "    foreground_color = "#657b83"" >> $file
+echo "\[layouts\]" >> $file
+echo "  \[\[default\]\]" >> $file
+echo "    \[\[\[child1\]\]\]" >> $file
+echo "      type = Terminal" >> $file
+echo "      parent = window0" >> $file
+echo "      profile = default" >> $file
+echo "    \[\[\[window0\]\]\]" >> $file
+echo "      type = Window" >> $file
+echo "      parent = """ >> $file
+echo "\[plugins\]" >> $file
+
+echo " [+] All configurations done."
