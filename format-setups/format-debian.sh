@@ -1,13 +1,15 @@
 #!/bin/bash
 # Debian version
 
-list=(build-essential autoconf libtool pkg-config python-dev network-manger \
+list=(build-essential autoconf libtool pkg-config python-dev python3-dev \
 python-pip texlive-full terminator vim vim-gtk iptraf audacity vlc mediainfo \
 unrar wxhexeditor ht bless binwalk wireshark aircrack-ng wifite nmap hydra \
 zbar-tools g++ g++-6 gcc-6 git curl vinetto skype pdf-presenter-console \
-libpcap0.8-dev cmake)
+libpcap0.8-dev cmake strace ltrace smplayer alsa-utils network-manager \
+python-software-properties apt-files gimp inkscape chkconfig htop \
+libgtkmm.3.0-dev libssl-dev gettext libarchive-dev)
 
-piplist=(hashlib jedi)
+piplist=(hashlib jedi pwn)
 
 function check()
 {
@@ -18,10 +20,11 @@ function check()
     
     if [[ ! -z $status ]]
     then
+        echo " [+] Package $name found!"
         return 1
     else
         echo " [-] Package $name not found."
-        echo -n " [+] Trying to install: "
+        echo -n " [!] Trying to install: "
         apt-get install -y $name
         status=$(apt list --installed | grep 'installed' | grep $name | \
             tail -n 1 | awk -F/ '{print $1}')
@@ -63,27 +66,53 @@ function pipcheck()
 
 if (( $EUID != 0 ))
 then
-    echo " [-] Please, execute as root!"
+    echo " [!] Please, execute as root!"
     exit
 fi
 
-# Skype repository
-add-apt-repository "deb http://archive.canonical.com/ $(lsb_release -sc) partner"
+echo "Let's go!"
+version=$(uname -a)
 
-sudo apt-get update
+if [[ $version == *Ubuntu* ]]
+then 
+    echo " [+] Ubuntu system. No need to add repositories."
+elif [[ $version == *kali* ]]
+then
+    echo " [+] Kali system. Adding some repositories."
+    echo -n "" > /etc/apt/sources.list
+    echo "deb http://http.kali.org/kali kali-rolling main contrib non-free" >> /etc/apt/sources.list
+    echo "deb http://old.kali.org/kali sana main non-free contrib" >> /etc/apt/sources.list
+    echo "deb http://old.kali.org/kali moto main non-free contrib" >> /etc/apt/sources.list
+    echo "deb http://archive.canonical.com/ $(lsb_release -sc) partner" >> /etc/apt-sources.list
+    echo "deb http://kali.cs.nctu.edu.tw/ /kali main contrib non-free" >> /etc/apt/sources.list
+    echo "deb http://kali.cs.nctu.edu.tw/ /wheezy main contrib non-free" >> /etc/apt/sources.list
+    echo "deb http://kali.cs.nctu.edu.tw/kali kali-dev main contrib non-free" >> /etc/apt/sources.list
+    echo "deb http://kali.cs.nctu.edu.tw/kali kali-dev main/debian-installer" >> /etc/apt/sources.list
+    echo "deb-src http://kali.cs.nctu.edu.tw/kali kali-dev main contrib non-free" >> /etc/apt/sources.list
+    echo "deb http://kali.cs.nctu.edu.tw/kali kali main contrib non-free" >> /etc/apt/sources.list
+    echo "deb http://kali.cs.nctu.edu.tw/kali kali main/debian-installer" >> /etc/apt/sources.list
+    echo "deb-src http://kali.cs.nctu.edu.tw/kali kali main contrib non-free" >> /etc/apt/sources.list
+    echo "deb http://kali.cs.nctu.edu.tw/kali-security kali/updates main contrib non-free" >> /etc/apt/sources.list
+    echo "deb-src http://kali.cs.nctu.edu.tw/kali-security kali/updates main contrib non-free" >> /etc/apt/sources.list
+    echo "deb http://kali.cs.nctu.edu.tw/kali kali-bleeding-edge main" >> /etc/apt/sources.list
+
+else
+    echo " [+] Unknow system."
+fi
+
+echo " [+] Updating repositories."
+apt-get update
 updatedb
 
-list=(build-essential)
-
-    for current in ${list[@]}
+for current in ${list[@]}
 do
-    echo " [+] Checking $current"
+    echo " [+] Checking $current."
     check $current
 done
 
 for current in ${piplist[@]}
 do
-    echo " [+] Checking $current"
+    echo " [+] Checking $current."
     pipcheck $current
 done
 
@@ -97,10 +126,8 @@ echo "macchanger -r eth0" >> $file
 echo "macchanger -r wlan0" >> $file
 echo "ifconfig eth0 up" >> $file
 echo "ifconfig wlan0 up" >> $file
-mv $file /etc/init.d/
-cd /etc/init.d/
 chmod +x $file
-update-rc.d $file defaults
+mv $file /usr/bin/
 cd ~
 
 ### PATHOGEN FOR VIM
@@ -132,10 +159,50 @@ echo "    let g:ycm_min_num_of_chars_for_completion = 1" >> $file
 echo "    set clipboard=unnamedplus \"Permite copiar direto para o clipboard" >> $file
 
 ### COWPATTY
-cd ~
-wget http://www.willhackforsushi.com/code/cowpatty/4.6/cowpatty-4.6.tgz
-tar xvf cowpatty-4.6.tgz
-cd cowpatty-4.6
+echo " [+] Checking cowpatty: "
+exec 2> /dev/null
+status=$(apt list --installed | grep 'installed' | grep cowpatty | \
+       tail -n 1 | awk -F/ '{print $1}')
+if [[ ! -z $status ]]
+then
+    echo -n "found."
+else
+    echo " [!] Installing cowpatty (in opt): "
+    cd /opt/
+    wget http://www.willhackforsushi.com/code/cowpatty/4.6/cowpatty-4.6.tgz
+    tar xvf cowpatty-4.6.tgz
+    rm -rf cowpatty-4.6.tgz
+    cd cowpatty-4.6
+    make
+    cp cowpatty /usr/bin/
+    echo -n "done!"
+fi
+
+### TELEGRAM
+echo " [+] Installing Telegram (desktop)."
+cd /opt/
+wget https://updates.tdesktop.com/tlinux/tsetup.0.10.11.tar.xz
+tar xvf tsetup.0.10.11.tar.xz
+rm -rf tsetup.0.10.11.tar.xz
+cd 
 make
-cp cowpatty /usr/bin/
-rm -rf cowpatty-4.6.tgz
+
+### PULSEAUDIO
+echo " [+] Fixing pulseaudio."
+killall -9 pulseaudio
+systemctl --user enable pulseaudio && systemctl --user start pulseaudio
+
+### PEDA
+echo " [+] Downloading and installing peda."
+cd /opt/
+git clone https://github.com/longld/peda.git peda
+echo “source peda/peda.py” >> ~/.gdbinit
+
+### Installing Grub-Customizer
+echo " [+] Downloading and installing Grub-Customizer."
+cd /opt/
+wget https://launchpadlibrarian.net/172968333/grub-customizer_4.0.6.tar.gz
+tar xvf grub-customi*
+cd grub-customi*
+cmake . && make -j3
+make install
