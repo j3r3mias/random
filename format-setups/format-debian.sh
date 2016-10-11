@@ -218,8 +218,8 @@ echo "\[profiles\]" >> $file
 echo "  \[\[default\]\]" >> $file
 echo "    background_image = None" >> $file
 echo "    font = Monospace 11" >> $file
-echo "    background_color = "#fdf6e3"" >> $file
-echo "    foreground_color = "#657b83"" >> $file
+echo "    background_color = \"\#fdf6e3\"" >> $file
+echo "    foreground_color = \"\#657b83\"" >> $file
 echo "\[layouts\]" >> $file
 echo "  \[\[default\]\]" >> $file
 echo "    \[\[\[child1\]\]\]" >> $file
