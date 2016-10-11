@@ -228,7 +228,7 @@ echo "      parent = window0" >> $file
 echo "      profile = default" >> $file
 echo "    \[\[\[window0\]\]\]" >> $file
 echo "      type = Window" >> $file
-echo "      parent = """ >> $file
+echo "      parent = \"\"" >> $file
 echo "\[plugins\]" >> $file
 
 echo " [+] All configurations done."
