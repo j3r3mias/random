@@ -7,7 +7,7 @@ unrar wxhexeditor ht bless binwalk wireshark aircrack-ng wifite nmap hydra \
 zbar-tools g++ g++-6 gcc-6 git curl vinetto skype pdf-presenter-console \
 libpcap0.8-dev cmake strace ltrace smplayer alsa-utils network-manager \
 python-software-properties apt-files gimp inkscape chkconfig htop \
-libgtkmm.3.0-dev libssl-dev gettext libarchive-dev)
+libgtkmm.3.0-dev libssl-dev gettext libarchive-dev hexchat )
 
 piplist=(hashlib jedi pwn)
 
@@ -102,6 +102,10 @@ fi
 
 echo " [+] Updating repositories."
 apt-get update
+echo " [+] Upgrading repositories."
+apt-get upgrade -y
+echo " [+] Updating repositories."
+apt-get update
 updatedb
 
 for current in ${list[@]}
@@ -116,19 +120,19 @@ do
     pipcheck $current
 done
 
-### Automatic MACCHANGER
-file=script-macchanger
-echo "#!/bin/bash" > $file
-echo "" >> $file
-echo "ifconfig eth0 down" >> $file
-echo "ifconfig wlan0 down" >> $file
-echo "macchanger -r eth0" >> $file
-echo "macchanger -r wlan0" >> $file
-echo "ifconfig eth0 up" >> $file
-echo "ifconfig wlan0 up" >> $file
-chmod +x $file
-mv $file /usr/bin/
-cd ~
+#### Automatic MACCHANGER
+#file=script-macchanger
+#echo "#!/bin/bash" > $file
+#echo "" >> $file
+#echo "ifconfig eth0 down" >> $file
+#echo "ifconfig wlan0 down" >> $file
+#echo "macchanger -r eth0" >> $file
+#echo "macchanger -r wlan0" >> $file
+#echo "ifconfig eth0 up" >> $file
+#echo "ifconfig wlan0 up" >> $file
+#chmod +x $file
+#mv $file /usr/bin/
+#cd ~
 
 ### PATHOGEN FOR VIM
 mkdir -p ~/.vim/autoload ~/.vim/bundle
@@ -173,62 +177,80 @@ else
     tar xvf cowpatty-4.6.tgz
     rm -rf cowpatty-4.6.tgz
     cd cowpatty-4.6
-    make
+    make -j3
     cp cowpatty /usr/bin/
     echo -n "done!"
 fi
 
-### TELEGRAM
+## TELEGRAM
 echo " [+] Installing Telegram (desktop)."
 cd /opt/
 wget https://updates.tdesktop.com/tlinux/tsetup.0.10.11.tar.xz
 tar xvf tsetup.0.10.11.tar.xz
-rm -rf tsetup.0.10.11.tar.xz
-cd 
-make
+mv Telegram/Telegram /usr/bin/
+rm -rf Telegram
 
-### PULSEAUDIO
-echo " [+] Fixing pulseaudio."
-killall -9 pulseaudio
-systemctl --user enable pulseaudio && systemctl --user start pulseaudio
+echo "" >> /.bashrc
+echo "alias Telegram='nohup Telegram &'" >> /.bashrc
+echo "alias telegram='nohup Telegram &'" >> /.bashrc
 
-### PEDA
-echo " [+] Downloading and installing peda."
-cd /opt/
-git clone https://github.com/longld/peda.git peda
-echo “source peda/peda.py” >> ~/.gdbinit
+#### PULSEAUDIO
+#echo " [+] Fixing pulseaudio."
+#killall -9 pulseaudio
+#systemctl --user enable pulseaudio && systemctl --user start pulseaudio
+#
+#### PEDA
+#echo " [+] Downloading and installing peda."
+#cd /opt/
+#git clone https://github.com/longld/peda.git peda
+#echo “source peda/peda.py” >> ~/.gdbinit
+#
+#### Installing Grub-Customizer
+#echo " [+] Downloading and installing Grub-Customizer."
+#cd /opt/
+#wget https://launchpadlibrarian.net/172968333/grub-customizer_4.0.6.tar.gz
+#tar xvf grub-customi*
+#cd grub-customi*
+#cmake . && make -j3
+#make install
 
-### Installing Grub-Customizer
-echo " [+] Downloading and installing Grub-Customizer."
-cd /opt/
-wget https://launchpadlibrarian.net/172968333/grub-customizer_4.0.6.tar.gz
-tar xvf grub-customi*
-cd grub-customi*
-cmake . && make -j3
-make install
-
-### Terminator configs
-echo " [+] Changing terminator configs."
-
-file=~/.config/terminator/config
-
-echo "\[global_config\]" >> $file
-echo "\[keybindings\]" >> $file
-echo "\[profiles\]" >> $file
-echo "  \[\[default\]\]" >> $file
-echo "    background_image = None" >> $file
-echo "    font = Monospace 11" >> $file
-echo "    background_color = \"\#fdf6e3\"" >> $file
-echo "    foreground_color = \"\#657b83\"" >> $file
-echo "\[layouts\]" >> $file
-echo "  \[\[default\]\]" >> $file
-echo "    \[\[\[child1\]\]\]" >> $file
-echo "      type = Terminal" >> $file
-echo "      parent = window0" >> $file
-echo "      profile = default" >> $file
-echo "    \[\[\[window0\]\]\]" >> $file
-echo "      type = Window" >> $file
-echo "      parent = \"\"" >> $file
-echo "\[plugins\]" >> $file
-
-echo " [+] All configurations done."
+#### Lid configuration
+#echo " [+] Creating lid configurations for screen close."
+#file=lid
+#echo -n '' > $file
+#echo '#!/bin/bash' >> $file
+#echo '# Getting first parameter' >> $file
+#echo 'status=$1' >> $file
+#echo '' >> $file
+#echo 'file=/etc/systemd/logind.conf' >> $file
+#echo '' >> $file
+#echo '# Uncomment the line' >> $file
+#echo 'sed "s/\#HandleLidSwitch=.*/HandleLidSwitch=ignore/g" $file > .logind.conf' >> $file
+#echo '' >> $file
+#echo 'if [[ $status == *off* ]]' >> $file
+#echo 'then' >> $file
+#echo '    echo "Lid suspend deactivated."' >> $file
+#echo '    new="kexec"' >> $file
+#echo 'elif [[ $status == *on* ]]' >> $file
+#echo 'then' >> $file
+#echo '    echo "Lid suspend activated."' >> $file
+#echo '    new="suspend"' >> $file
+#echo 'else' >> $file
+#echo '    current=$(cat $file | grep "HandleLidSwitch=" | cut -d '=' -f 2)' >> $file
+#echo '    if [[ $current == *kexec* ]]' >> $file
+#echo '    then' >> $file
+#echo '        echo "Lid suspend deactivated."' >> $file
+#echo '        new="suspend"' >> $file
+#echo '    else' >> $file
+#echo '        echo "Lid suspend activated."' >> $file
+#echo '        new="kexec"' >> $file
+#echo '    fi' >> $file
+#echo 'fi' >> $file
+#echo 'sed "s/HandleLidSwitch=.*/HandleLidSwitch=$new/g" $file > .logind.conf' >> $file
+#echo 'mv .logind.conf $file' >> $file
+#echo 'echo "You need to restart your computer to apply the new configs (bug of' >> $file
+#echo 'systemctl)"' >> $file
+#chmod +x $file
+#mv lid /usr/bin/
+#echo " [+] Setting suspend off."
+#lid off
