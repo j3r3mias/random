@@ -9,7 +9,7 @@ libpcap0.8-dev cmake strace ltrace smplayer alsa-utils network-manager \
 python-software-properties apt-files gimp inkscape chkconfig htop \
 libgtkmm.3.0-dev libssl-dev gettext libarchive-dev hexchat )
 
-piplist=(hashlib jedi pwn)
+piplist=(hashlib jedi pwn xortool)
 
 function check()
 {
