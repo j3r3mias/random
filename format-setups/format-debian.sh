@@ -7,7 +7,8 @@ unrar wxhexeditor ht bless binwalk wireshark aircrack-ng wifite nmap hydra \
 zbar-tools g++ g++-6 gcc-6 git curl vinetto skype pdf-presenter-console \
 libpcap0.8-dev cmake strace ltrace smplayer alsa-utils network-manager \
 python-software-properties apt-files gimp inkscape chkconfig htop \
-libgtkmm.3.0-dev libssl-dev gettext libarchive-dev hexchat cmake-curses-gui)
+libgtkmm.3.0-dev libssl-dev gettext libarchive-dev hexchat cmake-curses-gui \
+torbrowser-launcher)
 
 piplist=(hashlib jedi pwn xortool)
 
