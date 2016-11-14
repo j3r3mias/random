@@ -7,8 +7,8 @@ unrar wxhexeditor ht bless binwalk wireshark aircrack-ng wifite nmap hydra \
 zbar-tools g++ g++-6 gcc-6 git curl vinetto skype pdf-presenter-console \
 libpcap0.8-dev cmake strace ltrace smplayer alsa-utils network-manager \
 python-software-properties apt-files gimp inkscape chkconfig htop \
-libgtkmm.3.0-dev libssl-dev gettext libarchive-devsudo cmake-curses-gui hexchat 
-dcfldd)
+libgtkmm.3.0-dev libssl-dev gettext libarchive-devsudo cmake-curses-gui \
+hexchat dcfldd torbrowser-launcher higan mame xboxdrv)
 
 piplist=(hashlib jedi pwn xortool hashid)
 
@@ -188,7 +188,6 @@ echo " [+] Installing Telegram (desktop)."
 cd /opt/
 wget https://updates.tdesktop.com/tlinux/tsetup.0.10.11.tar.xz
 tar xvf tsetup.0.10.11.tar.xz
-<<<<<<< HEAD
 rm -rf tsetup.0.10.11.tar.xz
 cd Telegram
 mv Telegram /usr/bin
@@ -199,13 +198,6 @@ echo '' >> ~/.bashrc
 echo '# Telegram alias' >> ~/.bashrc 
 echo "alias telegram='nohup Telegram &'" >> ~/.bashrc 
 echo "alias Telegram='nohup Telegram &'" >> ~/.bashrc 
-
-cd 
-make
-=======
-mv Telegram/Telegram /usr/bin/
-rm -rf Telegram
->>>>>>> 7e2dd332858a1188a3410655c9c5a18718f9248d
 
 echo "" >> /.bashrc
 echo "alias Telegram='nohup Telegram &'" >> /.bashrc
