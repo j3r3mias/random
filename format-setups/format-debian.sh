@@ -8,7 +8,8 @@ zbar-tools g++ g++-6 gcc-6 git curl vinetto skype pdf-presenter-console \
 libpcap0.8-dev cmake strace ltrace smplayer alsa-utils network-manager \
 python-software-properties apt-files gimp inkscape chkconfig htop \
 libgtkmm.3.0-dev libssl-dev gettext libarchive-devsudo cmake-curses-gui \
-hexchat dcfldd torbrowser-launcher higan mame xboxdrv)
+hexchat dcfldd torbrowser-launcher higan mame xboxdrv lib32stdc++6 mtr-tiny\ 
+)
 
 piplist=(hashlib jedi pwn xortool hashid)
 
@@ -121,24 +122,36 @@ do
     pipcheck $current
 done
 
-#### Automatic MACCHANGER
-#file=script-macchanger
-#echo "#!/bin/bash" > $file
-#echo "" >> $file
-#echo "ifconfig eth0 down" >> $file
-#echo "ifconfig wlan0 down" >> $file
-#echo "macchanger -r eth0" >> $file
-#echo "macchanger -r wlan0" >> $file
-#echo "ifconfig eth0 up" >> $file
-#echo "ifconfig wlan0 up" >> $file
-#chmod +x $file
-#mv $file /usr/bin/
-#cd ~
+### Automatic MACCHANGER
+file=script-macchanger
+echo "#!/bin/bash" > $file
+echo "" >> $file
+echo "ifconfig eth0 down" >> $file
+echo "ifconfig wlan0 down" >> $file
+echo "macchanger -r eth0" >> $file
+echo "macchanger -r wlan0" >> $file
+echo "ifconfig eth0 up" >> $file
+echo "ifconfig wlan0 up" >> $file
+chmod +x $file
+mv $file /usr/bin/
+cd ~
 
 ### PATHOGEN FOR VIM
+echo " [+] Installing pathogen for vim"
 mkdir -p ~/.vim/autoload ~/.vim/bundle
 wget https://raw.github.com/tpope/vim-pathogen/master/autoload/pathogen.vim
 mv pathogen.vim ~/.vim/autoload/
+
+### VIM-AIRLINES
+echo " [+] Installing vim-airlines plugin for vim"
+git clone https://github.com/vim-airline/vim-airline ~/.vim/bundle/vim-airline
+
+### YOUCOMPLETEME
+echo " [+] Installing YouCompleteMe plugin for vim"
+git clone https://github.com/Valloric/YouCompleteMe.git ~/.vim/bundle/YouCompleteMe
+cd ~/.vim/bundle/YouCompleteMe/
+git submodule update --init --recursive
+./install.sh
 
 cd ~
 
@@ -162,6 +175,9 @@ echo "    set background=light" >> $file
 echo "    \"set background=dark" >> $file
 echo "    let g:ycm_min_num_of_chars_for_completion = 1" >> $file
 echo "    set clipboard=unnamedplus \"Permite copiar direto para o clipboard" >> $file
+echo "    set laststatus=2" >> $file
+echo "    set t_Co=256" >> $file
+echo "    let g:airline_powerline_fonts=1" >> $file
 
 ### COWPATTY
 echo " [+] Checking cowpatty: "
@@ -203,63 +219,68 @@ echo "" >> /.bashrc
 echo "alias Telegram='nohup Telegram &'" >> /.bashrc
 echo "alias telegram='nohup Telegram &'" >> /.bashrc
 
-#### PULSEAUDIO
-#echo " [+] Fixing pulseaudio."
-#killall -9 pulseaudio
-#systemctl --user enable pulseaudio && systemctl --user start pulseaudio
-#
-#### PEDA
-#echo " [+] Downloading and installing peda."
-#cd /opt/
-#git clone https://github.com/longld/peda.git peda
-#echo “source peda/peda.py” >> ~/.gdbinit
-#
-#### Installing Grub-Customizer
-#echo " [+] Downloading and installing Grub-Customizer."
-#cd /opt/
-#wget https://launchpadlibrarian.net/172968333/grub-customizer_4.0.6.tar.gz
-#tar xvf grub-customi*
-#cd grub-customi*
-#cmake . && make -j3
-#make install
+### PULSEAUDIO
+echo " [+] Fixing pulseaudio."
+killall -9 pulseaudio
+systemctl --user enable pulseaudio && systemctl --user start pulseaudio
 
-#### Lid configuration
-#echo " [+] Creating lid configurations for screen close."
-#file=lid
-#echo -n '' > $file
-#echo '#!/bin/bash' >> $file
-#echo '# Getting first parameter' >> $file
-#echo 'status=$1' >> $file
-#echo '' >> $file
-#echo 'file=/etc/systemd/logind.conf' >> $file
-#echo '' >> $file
-#echo '# Uncomment the line' >> $file
-#echo 'sed "s/\#HandleLidSwitch=.*/HandleLidSwitch=ignore/g" $file > .logind.conf' >> $file
-#echo '' >> $file
-#echo 'if [[ $status == *off* ]]' >> $file
-#echo 'then' >> $file
-#echo '    echo "Lid suspend deactivated."' >> $file
-#echo '    new="kexec"' >> $file
-#echo 'elif [[ $status == *on* ]]' >> $file
-#echo 'then' >> $file
-#echo '    echo "Lid suspend activated."' >> $file
-#echo '    new="suspend"' >> $file
-#echo 'else' >> $file
-#echo '    current=$(cat $file | grep "HandleLidSwitch=" | cut -d '=' -f 2)' >> $file
-#echo '    if [[ $current == *kexec* ]]' >> $file
-#echo '    then' >> $file
-#echo '        echo "Lid suspend deactivated."' >> $file
-#echo '        new="suspend"' >> $file
-#echo '    else' >> $file
-#echo '        echo "Lid suspend activated."' >> $file
-#echo '        new="kexec"' >> $file
-#echo '    fi' >> $file
-#echo 'fi' >> $file
-#echo 'sed "s/HandleLidSwitch=.*/HandleLidSwitch=$new/g" $file > .logind.conf' >> $file
-#echo 'mv .logind.conf $file' >> $file
-#echo 'echo "You need to restart your computer to apply the new configs (bug of' >> $file
-#echo 'systemctl)"' >> $file
-#chmod +x $file
-#mv lid /usr/bin/
-#echo " [+] Setting suspend off."
-#lid off
+### PEDA
+echo " [+] Downloading and installing peda."
+cd /opt/
+git clone https://github.com/longld/peda.git peda
+echo “source peda/peda.py” >> ~/.gdbinit
+
+### Installing Grub-Customizer
+echo " [+] Downloading and installing Grub-Customizer."
+cd /opt/
+wget https://launchpadlibrarian.net/172968333/grub-customizer_4.0.6.tar.gz
+tar xvf grub-customi*
+cd grub-customi*
+cmake . && make -j3
+make install
+
+### Lid configuration
+echo " [+] Creating lid configurations for screen close."
+file=lid
+echo -n '' > $file
+echo '#!/bin/bash' >> $file
+echo '# Getting first parameter' >> $file
+echo 'status=$1' >> $file
+echo '' >> $file
+echo 'file=/etc/systemd/logind.conf' >> $file
+echo '' >> $file
+echo '# Uncomment the line' >> $file
+echo 'sed "s/\#HandleLidSwitch=.*/HandleLidSwitch=ignore/g" $file > .logind.conf' >> $file
+echo '' >> $file
+echo 'if [[ $status == *off* ]]' >> $file
+echo 'then' >> $file
+echo '    echo "Lid suspend deactivated."' >> $file
+echo '    new="kexec"' >> $file
+echo 'elif [[ $status == *on* ]]' >> $file
+echo 'then' >> $file
+echo '    echo "Lid suspend activated."' >> $file
+echo '    new="suspend"' >> $file
+echo 'else' >> $file
+echo '    current=$(cat $file | grep "HandleLidSwitch=" | cut -d '=' -f 2)' >> $file
+echo '    if [[ $current == *kexec* ]]' >> $file
+echo '    then' >> $file
+echo '        echo "Lid suspend deactivated."' >> $file
+echo '        new="suspend"' >> $file
+echo '    else' >> $file
+echo '        echo "Lid suspend activated."' >> $file
+echo '        new="kexec"' >> $file
+echo '    fi' >> $file
+echo 'fi' >> $file
+echo 'sed "s/HandleLidSwitch=.*/HandleLidSwitch=$new/g" $file > .logind.conf' >> $file
+echo 'mv .logind.conf $file' >> $file
+echo 'echo "You need to restart your computer to apply the new configs (bug of' >> $file
+echo 'systemctl)"' >> $file
+chmod +x $file
+mv lid /usr/bin/
+echo " [+] Setting suspend off."
+lid off
+
+echo " [+] Creating new directory path view."
+echo '' >> ~/.bashrc 
+echo 'export PS1="$(whoami):${PWD/*\//}# "' >> ~/.bashrc 
+echo '' >> ~/.bashrc 
