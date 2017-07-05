@@ -249,6 +249,14 @@ cd /opt/
 git clone https://github.com/longld/peda.git peda
 echo “source peda/peda.py” > $homepath/.gdbinit
 
+### PEDA
+echo " [+] Downloading and installing Wifi-Pumpkin."
+cd /opt/
+git clone https://github.com/P0cL4bs/WiFi-Pumpkin.git
+cd WiFi-Pumpkin
+chmod +x installer.sh
+./installer.sh --install
+
 ### Installing Grub-Customizer
 echo " [+] Downloading and installing Grub-Customizer."
 cd /opt/
