@@ -228,15 +228,6 @@ cd Telegram
 mv Telegram /usr/bin
 cd /opt/
 rm -rf Telegram/
-echo "[+] Creating telegram alias."
-echo '' >> $homepath/.bashrc 
-echo '# Telegram alias' >> $homepath/.bashrc 
-echo "alias telegram='nohup Telegram &'" >> $homepath/.bashrc 
-echo "alias Telegram='nohup Telegram &'" >> $homepath/.bashrc 
-
-echo "" >> /.bashrc
-echo "alias Telegram='nohup Telegram &'" >> /.bashrc
-echo "alias telegram='nohup Telegram &'" >> /.bashrc
 
 ### PULSEAUDIO
 echo " [+] Fixing pulseaudio."
@@ -249,7 +240,7 @@ cd /opt/
 git clone https://github.com/longld/peda.git peda
 echo “source peda/peda.py” > $homepath/.gdbinit
 
-### PEDA
+### WIFI-PUMPKIN 
 echo " [+] Downloading and installing Wifi-Pumpkin."
 cd /opt/
 git clone https://github.com/P0cL4bs/WiFi-Pumpkin.git
@@ -265,6 +256,25 @@ tar xvf grub-customi*
 cd grub-customi*
 cmake . && make -j3
 make install
+
+echo " [+] Cloning git repositories."
+cd $homepath
+mkdir -p Development && cd Development
+git clone git@bitbucket.org:jeremiasmg/papers.git
+git clone git@bitbucket.org:gteodoro/papers.git
+git clone git@bitbucket.org:jeremiasmg/cryptopals.git
+git clone git@github.com:j3r3mias/random.git
+git clone git@github.com:j3r3mias/ctf.git
+git clone git@github.com:j3r3mias/competitive-programming.git
+git clone git@github.com:j3r3mias/teleHaF.git
+
+echo "[+] Creating alias."
+echo '' >> $homepath/.bashrc 
+echo '# Telegram alias' >> $homepath/.bashrc 
+echo "alias telegram='nohup Telegram &'" >> $homepath/.bashrc 
+echo "alias Telegram='nohup Telegram &'" >> $homepath/.bashrc 
+echo "alias random='cd $homepath/Development/random'" >> $homepath/.bashrc 
+echo "alias ctf='cd $homepath/Development/ctf'" >> $homepath/.bashrc 
 
 ### Lid configuration
 echo " [+] Creating lid configurations for screen close."
