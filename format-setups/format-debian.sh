@@ -14,7 +14,7 @@ list=(build-essential autoconf libtool pkg-config python-dev python3-dev \
     libarchive-devsudo cmake-curses-gui hexchat dcfldd torbrowser-launcher \
     higan mame xboxdrv lib32stdc++6 mtr-tiny dkms virtualbox cups exiftools \
     steghide imagemagick lzip apache2 ltrace deluge jd-gui spotify-client \
-    bsdiff wine printer-driver-pxljr  )
+    bsdiff wine printer-driver-pxljr xclip)
 
 piplist=(hashlib jedi pwn xortool hashid)
 
