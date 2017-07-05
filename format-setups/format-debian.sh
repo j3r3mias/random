@@ -123,6 +123,7 @@ do
 done
 
 ### Automatic MACCHANGER
+echo " [+] Generating MAC changer script for every boot."
 file=script-macchanger
 echo "#!/bin/bash" > $file
 echo "" >> $file
@@ -132,8 +133,36 @@ echo "macchanger -r eth0" >> $file
 echo "macchanger -r wlan0" >> $file
 echo "ifconfig eth0 up" >> $file
 echo "ifconfig wlan0 up" >> $file
-chmod +x $file
+chmod +755 $file
 mv $file /usr/bin/
+sed -i "s/exit 0/$file\n\nexit 0/" /etc/rc.local
+
+### Change ESC with CTRL
+echo " [+] Changing ESC with CTRL for VIM users."
+file=script-changesctrl
+echo "#!/bin/bash" > $file
+echo "" >> $file
+
+echo 'echo "#!/bin/bash"'" >> $file
+echo """ >> $file
+echo "echo \"! make caps_lock an additional control\" > /tmp/.xmodmap.config" >> $file
+echo "echo \"keycode 66 = Control_L\" >> /tmp/.xmodmap.config" >> $file
+echo "echo \"add Control = Control_L\" >> /tmp/.xmodmap.config" >> $file
+echo "echo \"\" >> /tmp/.xmodmap.config" >> $file
+echo "echo \"! make escape be caps_lock\" >> /tmp/.xmodmap.config" >> $file
+echo "echo \"clear Lock\" >> /tmp/.xmodmap.config" >> $file
+echo "echo \"keycode 9 = Caps_Lock\" >> /tmp/.xmodmap.config" >> $file
+echo "echo \"add Lock = Caps_Lock\" >> /tmp/.xmodmap.config" >> $file
+echo "echo \"\" >> /tmp/.xmodmap.config" >> $file
+echo "echo \"! make a fake escape key (so we can map it with xcape)\" >> /tmp/.xmodmap.config" >> $file
+echo "echo \"keycode 999 = Escape\" >> /tmp/.xmodmap.config" >> $file
+echo "pkill xcape" >> $file
+echo "xmodmap /tmp/.xmodmap.config" >> $file
+echo "xcape" >> $file
+chmod +755 $file
+mv $file /usr/bin/
+sed -i "s/exit 0/$file\n\nexit 0/" /etc/rc.local
+
 cd $homepath
 
 ### PATHOGEN FOR VIM
@@ -141,42 +170,42 @@ echo " [+] Installing pathogen for vim"
 mkdir -p $homepath/.vim/autoload $homepath/.vim/bundle
 curl -LSso $homepath/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
 
- ### CONFIGURATIONS FOR VIM
- echo " [+] Creating .vimrc"
- 
- cd $homepath
- file=.vimrc
- echo "execute pathogen#infect()" > $file
- echo "    call pathogen#helptags()" >> $file
- echo "    filetype plugin indent on" >> $file
- echo "    syntax on \"Para utilizar com o tema solarized" >> $file
- echo "    set showmatch \"mostra caracteres ( { [ quando fechados" >> $file
- echo "    set textwidth=80 \"largura do texto" >> $file
- echo "    set nowrap  \"sem wrap (quebra de linha)" >> $file
- echo "    set mouse=a \"habilita todas as acoes do mouse" >> $file
- echo "    set nu \"numeracao de linhas" >> $file
- echo "    set ts=4 \"Seta onde o tab para" >> $file
- echo "    set sw=4 \"largura do tab" >> $file
- echo "    set et \"espacos em vez de tab" >> $file
- echo "    \"set spell spelllang=pt\"" >> $file
- echo "    set nospell" >> $file
- echo "    set background=light" >> $file
- echo "    \"set background=dark" >> $file
- echo "    let g:ycm_min_num_of_chars_for_completion = 1" >> $file
- echo "    set clipboard=unnamedplus \"Permite copiar direto para o clipboard" >> $file
- echo "    set laststatus=2" >> $file
- echo "    set t_Co=256" >> $file
- echo "    let g:airline_powerline_fonts=1" >> $file
- echo "    set relativenumber" >> $file
- echo "    highlight OverLength ctermbg=red ctermfg=white guibg=#592929" >> $file
- echo "    match OverLength /\%81v.*/" >> $file
- 
- ### YOUCOMPLETEME
- echo " [+] Installing Plugins for Vim"
- git clone https://github.com/Valloric/YouCompleteMe.git $homepath/.vim/bundle/YouCompleteMe
- cd $homepath/.vim/bundle/YouCompleteMe/
- git submodule update --init --recursive
- ./install.sh
+### CONFIGURATIONS FOR VIM
+echo " [+] Creating .vimrc"
+
+cd $homepath
+file=.vimrc
+echo "execute pathogen#infect()" > $file
+echo "    call pathogen#helptags()" >> $file
+echo "    filetype plugin indent on" >> $file
+echo "    syntax on \"Para utilizar com o tema solarized" >> $file
+echo "    set showmatch \"mostra caracteres ( { [ quando fechados" >> $file
+echo "    set textwidth=80 \"largura do texto" >> $file
+echo "    set nowrap  \"sem wrap (quebra de linha)" >> $file
+echo "    set mouse=a \"habilita todas as acoes do mouse" >> $file
+echo "    set nu \"numeracao de linhas" >> $file
+echo "    set ts=4 \"Seta onde o tab para" >> $file
+echo "    set sw=4 \"largura do tab" >> $file
+echo "    set et \"espacos em vez de tab" >> $file
+echo "    \"set spell spelllang=pt\"" >> $file
+echo "    set nospell" >> $file
+echo "    set background=light" >> $file
+echo "    \"set background=dark" >> $file
+echo "    let g:ycm_min_num_of_chars_for_completion = 1" >> $file
+echo "    set clipboard=unnamedplus \"Permite copiar direto para o clipboard" >> $file
+echo "    set laststatus=2" >> $file
+echo "    set t_Co=256" >> $file
+echo "    let g:airline_powerline_fonts=1" >> $file
+echo "    set relativenumber" >> $file
+echo "    highlight OverLength ctermbg=red ctermfg=white guibg=#592929" >> $file
+echo "    match OverLength /\%81v.*/" >> $file
+
+### YOUCOMPLETEME
+echo " [+] Installing Plugins for Vim"
+git clone https://github.com/Valloric/YouCompleteMe.git $homepath/.vim/bundle/YouCompleteMe
+cd $homepath/.vim/bundle/YouCompleteMe/
+git submodule update --init --recursive
+./install.sh
 
 cd $homepath/.vim/
 git init
