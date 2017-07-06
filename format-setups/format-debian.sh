@@ -2,7 +2,7 @@
 # Debian version
 
 user="j3r3mias"
-homepath="/home/$user/"
+homepath="/home/$user"
 
 list=(build-essential autoconf libtool pkg-config python-dev python3-dev \
     python-pip texlive-full terminator vim vim-gtk iptraf audacity vlc \
@@ -14,7 +14,7 @@ list=(build-essential autoconf libtool pkg-config python-dev python3-dev \
     libarchive-devsudo cmake-curses-gui hexchat dcfldd torbrowser-launcher \
     higan mame xboxdrv lib32stdc++6 mtr-tiny dkms virtualbox cups exiftools \
     steghide imagemagick lzip apache2 ltrace deluge jd-gui spotify-client \
-    bsdiff wine printer-driver-pxljr xclip)
+    bsdiff wine printer-driver-pxljr xclip xcape okular)
 
 piplist=(hashlib jedi pwn xortool hashid)
 
@@ -86,18 +86,18 @@ then
 elif [[ $version == *kali* ]]
 then
     echo " [+] Kali system. Adding some repositories."
-    $homepath="/etc/apt/sources.list"
-    echo -n "" > $$homepath
-    echo "deb http://kali.cs.nctu.edu.tw/kali kali-dev main contrib non-free" >> $$homepath
-    echo "deb http://kali.cs.nctu.edu.tw/kali kali-dev main/debian-installer" >> $$homepath
-    echo "deb-src http://kali.cs.nctu.edu.tw/kali kali-dev main contrib non-free" >> $$homepath
-    echo "deb http://kali.cs.nctu.edu.tw/kali kali main contrib non-free" >> $$homepath
-    echo "deb http://kali.cs.nctu.edu.tw/kali kali main/debian-installer" >> $$homepath
-    echo "deb-src http://kali.cs.nctu.edu.tw/kali kali main contrib non-free" >> $$homepath
-    echo "deb http://kali.cs.nctu.edu.tw/kali-security kali/updates main contrib non-free" >> $$homepath
-    echo "deb-src http://kali.cs.nctu.edu.tw/kali-security kali/updates main contrib non-free" >> $$homepath
-    echo "deb http://kali.cs.nctu.edu.tw/kali kali-bleeding-edge main" >> $$homepath
-    echo "deb http://repository.spotify.com stable non-free" >> $$homepath
+    aptpath="/etc/apt/sources.list"
+    echo -n "" > $aptpath
+    echo "deb http://kali.cs.nctu.edu.tw/kali kali-dev main contrib non-free" >> $aptpath
+    echo "deb http://kali.cs.nctu.edu.tw/kali kali-dev main/debian-installer" >> $aptpath
+    echo "deb-src http://kali.cs.nctu.edu.tw/kali kali-dev main contrib non-free" >> $aptpath
+    echo "deb http://kali.cs.nctu.edu.tw/kali kali main contrib non-free" >> $aptpath
+    echo "deb http://kali.cs.nctu.edu.tw/kali kali main/debian-installer" >> $aptpath
+    echo "deb-src http://kali.cs.nctu.edu.tw/kali kali main contrib non-free" >> $aptpath
+    echo "deb http://kali.cs.nctu.edu.tw/kali-security kali/updates main contrib non-free" >> $aptpath
+    echo "deb-src http://kali.cs.nctu.edu.tw/kali-security kali/updates main contrib non-free" >> $aptpath
+    echo "deb http://kali.cs.nctu.edu.tw/kali kali-bleeding-edge main" >> $aptpath
+    echo "deb http://repository.spotify.com stable non-free" >> $aptpath
 else
     echo " [+] Unknow system."
 fi
@@ -287,10 +287,15 @@ cmake . && make -j3
 make install
 
 echo " [+] Cloning git repositories."
-cd $homepath
-mkdir -p Development && cd Development
-git clone git@bitbucket.org:jeremiasmg/papers.git
+cd $homepath/Documents
+# git clone git@bitbucket.org:jeremiasmg/papers.git
+# mv $homepath/papers $homepath/jeremias-papers
 git clone git@bitbucket.org:gteodoro/papers.git
+mv $homepath/papers $homepath/george-papers
+
+mkdir -p $homepath/Development
+chown $user.$user $homepath/Development
+cd $homepath/Development
 git clone git@bitbucket.org:jeremiasmg/cryptopals.git
 git clone git@github.com:j3r3mias/random.git
 git clone git@github.com:j3r3mias/ctf.git
@@ -349,6 +354,7 @@ lid off
 echo " [+] Creating new directory path view."
 echo '' >> $homepath/.bashrc 
 echo 'export PS1="\u@\h:[\W]# "' >> $homepath/.bashrc 
+
 echo '' >> $homepath/.bashrc 
 
 echo " [+] Increasing history size."
