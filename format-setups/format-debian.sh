@@ -14,9 +14,11 @@ list=(build-essential autoconf libtool pkg-config python-dev python3-dev \
     libarchive-devsudo cmake-curses-gui hexchat dcfldd torbrowser-launcher \
     higan mame xboxdrv lib32stdc++6 mtr-tiny dkms virtualbox cups exiftools \
     steghide imagemagick lzip apache2 ltrace deluge jd-gui spotify-client \
-    bsdiff wine printer-driver-pxljr xclip xcape okular)
+    bsdiff wine printer-driver-pxljr xclip xcape okular meld intltool autoconf \
+    automake libglib2.0-dev gawk libgtk-3-dev libxml2-dev libxv-dev \
+    libsdl1.2-dev libpulse-dev libportaudio-ocaml-dev libportaudio2)
 
-piplist=(hashlib jedi pwn xortool hashid)
+piplist=(hashlib jedi pwn xortool hashid sympy)
 
 function check()
 {
@@ -209,9 +211,8 @@ git submodule update --init --recursive
 
 cd $homepath/.vim/
 git init
-echo '1'
 git submodule add https://github.com/scrooloose/syntastic.git bundle/syntastic
-echo '2'
+git submodule add https://github.com/ajh17/VimCompletesMe.git bundle/vim-completes-me
 git submodule add https://github.com/jiangmiao/auto-pairs.git bundle/auto-pairs
 git submodule add https://github.com/vim-scripts/The-NERD-tree.git bundle/nerdtree
 git submodule add https://github.com/bling/vim-airline.git bundle/vim-airline
@@ -286,10 +287,44 @@ cd grub-customi*
 cmake . && make -j3
 make install
 
+### Installing snes9x
+echo " [+] Downloading and installing snes9x."
+cd /opt/
+git clone https://github.com/snes9xgit/snes9x.git
+cd snes9x/unix
+autoconf
+./configure --enable-netplay
+make
+cp snes9x /usr/bin/
+wget http://maxolasersquad.com/snes9x.png -O /usr/share/pixmaps/snes9x.png
+cd ../gtk
+./autogen.sh
+./configure --with-gtk3
+make
+cp snes9x-gtk /usr/bin/
+
+deskFile='/usr/share/applications/snes9x.desktop'
+echo -n '' > $deskFile
+echo '[Desktop Entry]' >> $deskFile
+echo 'Version=1.0' >> $deskFile
+echo 'Name=Snes9x GTK' >> $deskFile
+echo 'Comment=A portable, freeware Super Nintendo Entertainment System (SNES)' >> $deskFile
+echo 'emulator.' >> $deskFile
+echo 'GenericName=Snes9x GTK' >> $deskFile
+echo 'Keywords=Games' >> $deskFile
+echo 'Exec=snes9x-gtk' >> $deskFile
+echo 'Terminal=false' >> $deskFile
+echo 'X-MultipleArgs=false' >> $deskFile
+echo 'Type=Application' >> $deskFile
+echo 'Icon=/usr/share/pixmaps/snes9x.png' >> $deskFile
+echo 'Categories=Game' >> $deskFile
+echo 'StartupWMClass=Snes9x' >> $deskFile
+echo 'StartupNotify=true' >> $deskFile
+
 echo " [+] Cloning git repositories."
 cd $homepath/Documents
-# git clone git@bitbucket.org:jeremiasmg/papers.git
-# mv $homepath/papers $homepath/jeremias-papers
+git clone git@bitbucket.org:jeremiasmg/papers.git
+mv $homepath/papers $homepath/jeremias-papers
 git clone git@bitbucket.org:gteodoro/papers.git
 mv $homepath/papers $homepath/george-papers
 
@@ -305,10 +340,12 @@ git clone git@github.com:j3r3mias/teleHaF.git
 echo "[+] Creating alias."
 echo '' >> $homepath/.bashrc 
 echo '# Telegram alias' >> $homepath/.bashrc 
-echo "alias telegram='nohup Telegram &'" >> $homepath/.bashrc 
-echo "alias Telegram='nohup Telegram &'" >> $homepath/.bashrc 
+echo "alias telegram='cd ~; nohup Telegram &'" >> $homepath/.bashrc 
+echo "alias Telegram='cd ~; nohup Telegram &'" >> $homepath/.bashrc 
 echo "alias random='cd $homepath/Development/random'" >> $homepath/.bashrc 
 echo "alias ctf='cd $homepath/Development/ctf'" >> $homepath/.bashrc 
+echo "alias uri='cd $homepath/Development/competitive-programming/uri'" >> $homepath/.bashrc 
+echo "alias daily='cd $homepath/Development/competititve-programming/dailyprogrammer'" >> $homepath/.bashrc 
 
 ### Lid configuration
 echo " [+] Creating lid configurations for screen close."
@@ -353,12 +390,16 @@ lid off
 
 echo " [+] Creating new directory path view."
 echo '' >> $homepath/.bashrc 
-echo 'export PS1="\u@\h:[\W]# "' >> $homepath/.bashrc 
-
+echo '' >> $homepath/.bashrc 
 echo '' >> $homepath/.bashrc 
 
 echo " [+] Increasing history size."
 sed -i 's/\(HISTSIZE=\).*/\1100000/;s/\(HISTFILESIZE=\).*/\1200000/' $homepath/.bashrc
+
+echo " [+] ROT13."
+echo '# ROT13' >> $homepath/.bashrc 
+echo 'alias rot13="tr \'[A-Za-z]\' \'[N-ZA-Mn-za-m]\'"' >> $homepath/.bashrc
+echo '' >> $homepath/.bashrc 
 
 echo "     OK"
 echo ""
