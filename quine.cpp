@@ -7,7 +7,7 @@ int main() {
 }
 /**
  *
- * Create a program that write yourself
+ * Create a program that write itself
  *
  * @author jeremias
  *
