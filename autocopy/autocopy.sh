@@ -1,10 +1,9 @@
 #!/bin/bash
 
-if (( $EUID != 0 ))
-then
+(( $EUID != 0 )) && {
     echo " [!] Please, execute as root!"
-    exit
-fi
+    exit 2 #please drop an error when exiting
+}
 
 echo " [+] Iniciando cópia de conteúdos para as mídias"
 read -p " [+] Insira as mídias a serem gravadas e pressione qualquer tecla... "
