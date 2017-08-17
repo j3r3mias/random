@@ -214,7 +214,7 @@ echo " [+] History setup."
 
 echo " # History setaup." >> $homepath/.bashrc
 echo 'HISTSIZE=1100000' >> $homepath/.bashrc
-echo 'HISTFILESIZE=1200000'   >> $homepath/.bashrc 
+echo 'HISTFILESIZE=1200000' >> $homepath/.bashrc 
 
 echo " [+] ROT13."
 echo '# ROT13' >> $homepath/.bashrc 
