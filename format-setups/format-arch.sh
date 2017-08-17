@@ -1,5 +1,5 @@
 #!/bin/bash
-# Debian version
+# Arch version
 
 user="j3r3mias"
 homepath="/home/$user"
