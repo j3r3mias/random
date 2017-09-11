@@ -18,7 +18,7 @@ def openSite():
             'application/pdf,application/vnd.adobe.xfdf,application/vnd.fdf,application/vnd.adobe.xdp+xml'
 
     # Personaliza o Firefox para download automático, pasta onde serão salvos 
-    # os arquivos, etc
+    # os arquivos, etc...
     fp = webdriver.FirefoxProfile()
     fp.set_preference('browser.download.folderList', 2)
     fp.set_preference('browser.download.manager.showWhenStarting', False)
@@ -100,7 +100,7 @@ def download(driver):
     global firstDownload
     global downloadPath
     
-    table = getID(driver, 'frmPesquisa:tDiarios:tb')
+    table   = getID(driver, 'frmPesquisa:tDiarios:tb')
     options = table.find_elements_by_tag_name('tr')
     sizeOpt = len(options) + 1
     
@@ -108,7 +108,7 @@ def download(driver):
         print('Baixando ', options[i - 1].text )
         xpath = '//html/body/div/div/div[4]/form[2]/div/table/tbody/tr/td/'
         xpath = xpath + 'table/tbody/tr[' + str(i) + ']/td[4]'
-        down = driver.find_element_by_xpath(xpath)
+        down  = driver.find_element_by_xpath(xpath)
         
         down.click()
 
@@ -171,6 +171,7 @@ def main():
                     download(driver)
                 else:
                     continue
+
     driver.close()
 
 if __name__ == '__main__':
