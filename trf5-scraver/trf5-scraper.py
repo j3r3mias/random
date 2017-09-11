@@ -17,8 +17,8 @@ def openSite():
     mimeTypes =\
             'application/pdf,application/vnd.adobe.xfdf,application/vnd.fdf,application/vnd.adobe.xdp+xml'
 
-    # Personaliza o Firefox para download automático, pasta onde serão salvos os
-    # arquivos, etc
+    # Personaliza o Firefox para download automático, pasta onde serão salvos 
+    # os arquivos, etc
     fp = webdriver.FirefoxProfile()
     fp.set_preference('browser.download.folderList', 2)
     fp.set_preference('browser.download.manager.showWhenStarting', False)
