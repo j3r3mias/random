@@ -60,6 +60,10 @@ echo 'WantedBy=default.target' >> $sshfile
 echo '' >> $sshfile
 echo 'SSH_AUTH_SOCK   DEFAULT="${XDG_RUNTIME_DIR}/ssh-agent.socket"' >> ~/.pam_environment
 
+# R package
+pacman -S r
+yaourt -S rstudio-desktop-bin
+
 pacman -S --needed base-devel git wget yajl
 git clone https://aur.archlinux.org/package-query.git
 git clone https://aur.archlinux.org/yaourt.git
