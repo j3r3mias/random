@@ -38,7 +38,7 @@ def getID(driver, s):
     
     return driver.find_element_by_id(s)
 
-def expandto100(driver):
+def expandTo100(driver):
     '''
     Expande os itens por página para 100
     '''
@@ -61,7 +61,7 @@ def isRegistros(driver):
         None
     return True
 
-def selectandgo(driver, org, edi, per):
+def selectAndGo(driver, org, edi, per):
     '''
     Seleciona as opções dos formulários
         - org: O índice do órgam
@@ -82,15 +82,15 @@ def selectandgo(driver, org, edi, per):
     registros = isRegistros(driver)
     
     if registros:
-        expandto100(driver)
+        expandTo100(driver)
     return registros
 
-def isnonzerofile(fpath):  
+def isNonZeroFile(fPath):  
     '''
     Verifica se o arquivo existe e se ele não é vazio
     '''
 
-    return os.path.isfile(fpath) and os.path.getsize(fpath) > 0
+    return os.path.isfile(fPath) and os.path.getsize(fPath) > 0
 
 def download(driver):
     '''
@@ -102,9 +102,9 @@ def download(driver):
     
     table = getID(driver, 'frmPesquisa:tDiarios:tb')
     options = table.find_elements_by_tag_name('tr')
-    sizeopt = len(options) + 1
+    sizeOpt = len(options) + 1
     
-    for i in range(1, sizeopt):
+    for i in range(1, sizeOpt):
         print('Baixando ', options[i - 1].text )
         xpath = '//html/body/div/div/div[4]/form[2]/div/table/tbody/tr/td/'
         xpath = xpath + 'table/tbody/tr[' + str(i) + ']/td[4]'
@@ -119,13 +119,13 @@ def download(driver):
        
         # Checagem do download (o Selenium não faz)
         while True:
-            if isnonzerofile(arg1):
+            if isNonZeroFile(arg1):
                 print('Download concluído')
                 command = 'mv ' + arg1 + ' ' + arg2 
                 print('Renomeando')
                 os.system(command)
                 while True:
-                    if isnonzerofile(arg2):
+                    if isNonZeroFile(arg2):
                         break
                     else:
                         print('Renomeando...')
@@ -160,14 +160,14 @@ def main():
     optEdicao  = edicao.find_elements_by_tag_name( 'option')
     optPeriodo = periodo.find_elements_by_tag_name('option')
     
-    sizeorgaos  = len(optOrgaos )
+    sizeOrgaos  = len(optOrgaos )
     sizeedicao  = len(optEdicao )
     sizeperiodo = len(optPeriodo)
 
-    for i in range(1, sizeorgaos):
+    for i in range(1, sizeOrgaos):
         for j in range(1, sizeedicao):
             for k in range(1, sizeperiodo):
-                if selectandgo(driver, i, j, k):
+                if selectAndGo(driver, i, j, k):
                     download(driver)
                 else:
                     continue
