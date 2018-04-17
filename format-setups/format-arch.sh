@@ -78,6 +78,33 @@ cd ..
 
 rm -dR yaourt/ package-query/
 
+pacman -S valgrind htop terminator xclip sublime atom gedit python2 openvpn 
+pacman -S python-qt4 build-essential metasploit extra/jre8-openjdk 
+pacman -S extra/texlive-bibtexextra okular atom inkscape gimp cups 
+pacman -S gtk3-print-backends ghostscript hplip mixxx vim-gnome gvim
+pacman -S python2-pip extra/gnu-netcat gnome-screenshot crunch cmake
+pacman -S chromium gnuplot wine xdg-user-dirs-gtk meld qemu qemu-arch-extra
+pacamn -S ltrace wireshark wireshark-gtk binwalk traceroute netstat
+pacman -S radare gdb multilib-testing/lib32-glibc lib32-glibc
+pacman -S perl-image-exiftool glibc lib32-glibc socat net-tools
+simh
+irssl
+irssi
+libperl
+radare2
+phantomjs
+community/recordmydesktop
+extra/python-pyqt4
+community/emscripten
+extra/chromium
+valgrind
+pacman
+pacman
+pacman
+pacman
+pacman
+
+
 # Package to create the rules based in previous debian usage
 # list=(build-essential autoconf libtool pkg-config python-dev python3-dev \
 #     python-pip texlive-full terminator vim vim-gtk iptraf audacity vlc \

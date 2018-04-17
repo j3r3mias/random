@@ -45,17 +45,17 @@ class Graph:
 
 def dfs(g, v):
     g.visited[v] = 1
-    print '\ndfs de :', v
+    print('\ndfs de :', v)
     allNodes = set(g.nodes)
     neighbors = g.edges[v]
-    print neighbors
+    print(neighbors)
     for i in neighbors:
         if i in g.visited:
-            print i, 'ja visitado'
+            print(i, 'ja visitado')
         else:
-            print 'Visitando', i, 'de', v
+            print('Visitando', i, 'de', v)
             dfs(g, i)
-            print '' 
+            print('')
 
 def bfs(g, v):
     d = collections.deque()
@@ -63,20 +63,20 @@ def bfs(g, v):
     while len(d): 
         e = d.popleft()
         g.visited[e] = 1
-        print 'Visitando', e
+        print('Visitando', e)
         for i in g.edges[e]:
             if ~(i in g.visited):
                 d.append(i)
             else:
-                print i, 'ja visitado'
+                print(i, 'ja visitado')
 
 def bestfs(g, v):
-    print '\nFila: ', g.queue.qsize()
+    print('\nFila: ', g.queue.qsize())
     g.visited[v] = 1
     neighbors = g.edges[v]
-    print 'Neighbors:', neighbors
+    print('Neighbors:', neighbors)
     for i in neighbors:
-        print 'Inserindo:', i, '-', g.distances[(v, i)]
+        print('Inserindo:', i, '-', g.distances[(v, i)])
         g.queue.put((g.distances[(v, i)], v, i))
     
     if g.queue.qsize() > 0:
@@ -86,9 +86,9 @@ def bestfs(g, v):
     if e[2] in g.visited:
         return
     else:
-        print 'Path:', e[1], e[2]
+        print('Path:', e[1], e[2])
         g.add_path(e[1], e[2])
-        print 'Visitando:', e
+        print('Visitando:', e)
         g.total_memory += e[0]
-        print 'Memoria total:', g.total_memory
+        print('Memoria total:', g.total_memory)
         bestfs(g, e[2])

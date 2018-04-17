@@ -51,11 +51,11 @@ g.add_edge('o', 'r5', 1)
 g.add_edge('p', 'r6', 1)
 g.add_edge('q', 'r7', 1)
 
-print ''
+print('')
 # g.remove_node('n')
 
-print g
+print(g)
 
 graph.bestfs(g, 'a')
 
-print g
+print(g)
