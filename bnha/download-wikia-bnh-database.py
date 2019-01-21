@@ -37,7 +37,7 @@ for chapter in range(1, 202):
     print '     [+] Chapter:', chapter
     if code == 200:
         content = response.read()
-        soup = BeautifulSoup(content, 'lxml')
+        soup = BeautifulSoup(content, features = 'html.parser')
         divs = soup.find_all('div', {"class": 'pi-item pi-data pi-item-spacing pi-border-color'})
         for i in infos.keys():
             info = getcontent(divs, i)

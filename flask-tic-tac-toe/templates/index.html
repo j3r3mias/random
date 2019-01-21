@@ -1,0 +1,44 @@
+<html>
+    <head>
+        <title>
+            Tic Tac Toe with Flask
+        </title>
+        <style>
+table {
+    border-collapse: collapse;
+}
+td {
+        border: 1px solid black;
+        width: 150px;
+        height: 150px;
+        text-align: center;
+        font-size: 80px;
+}
+
+        </style>
+
+    </head>
+    <body>
+        <table>
+            {% for i in range(3) %}
+                <tr>
+                    {% for j in range(3) %}
+                    <td>
+                        {% if game[i][j] == None %}
+                        <a style="font-size: 20px" href={{ url_for('play', row = i, col = j) }}>{{turn}} turn.</a>
+                        {% else %}
+                            {{ game[i][j] }}
+                        {% endif %}
+                    </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </table>
+        {% if message: %}
+        <h3>
+        {{ message }} <br>
+        </h3>
+        {% endif %}
+        <a href={{ url_for('reset') }}>Reset the game</a>
+    </body>
+</html>
