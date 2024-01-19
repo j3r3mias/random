@@ -1,3 +1,5 @@
+#!/usr/bin/gdb
+
 set disassembly-flavor intel
 set pagination off
 set confirm off
