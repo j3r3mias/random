@@ -1,5 +1,5 @@
 PyAutoGUI==0.9.36
 opencv_python==3.4.1.15
-numpy==1.14.4
+numpy==1.26.3
 selenium==3.8.0
 Pillow==10.2.0
